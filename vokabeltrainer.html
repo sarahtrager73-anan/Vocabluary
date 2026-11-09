@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tägliche Vokabeln</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--ink:#16202e;--mute:#667085;--line:#dcdad3;--acc:#244c8f;--acc2:#fff;--ok:#1d7a4d;--bad:#b3392f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161d;--card:#1b212b;--ink:#eef0f4;--mute:#9aa3b2;--line:#2c3441;--acc:#7fa6ee;--acc2:#101622;--ok:#5ccf93;--bad:#ff8b80}}
+:root[data-theme="dark"]{--bg:#12161d;--card:#1b212b;--ink:#eef0f4;--mute:#9aa3b2;--line:#2c3441;--acc:#7fa6ee;--acc2:#101622;--ok:#5ccf93;--bad:#ff8b80}
+:root.es{--acc:#a8342c}
+@media (prefers-color-scheme:dark){:root.es:not([data-theme="light"]){--acc:#ff8f7f}}
+:root[data-theme="dark"].es{--acc:#ff8f7f}
+*{box-sizing:border-box}
+html{color-scheme:light dark}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:520px;margin:0 auto;padding:20px 16px 40px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+h1{font:600 1.35rem "Newsreader",Georgia,serif;margin:0}
+.streak{font-size:.9rem;color:var(--mute)}
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.tab{padding:10px 8px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:inherit;cursor:pointer;text-align:left}
+.tab b{display:block;font-size:.95rem}.tab span{font-size:.8rem;color:var(--mute)}
+.tab[aria-pressed="true"]{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--mute);margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;min-height:280px;padding:28px 22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;width:100%;color:var(--ink);font:inherit}
+.word{font:600 2.2rem/1.15 "Newsreader",Georgia,serif;margin:0 0 8px;overflow-wrap:anywhere}
+.hint{color:var(--mute);font-size:.9rem}
+.tr{font-size:1.4rem;font-weight:600;color:var(--acc);margin:0 0 14px}
+.ex{font:italic 1.05rem/1.5 "Newsreader",Georgia,serif;margin:0;max-width:40ch}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.btn{padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 1rem system-ui,sans-serif;cursor:pointer}
+.btn.ok{background:var(--acc);color:var(--acc2);border-color:var(--acc)}
+.btn:disabled{opacity:.4;cursor:default}
+.speak{margin-top:16px;background:none;border:0;color:var(--acc);font:inherit;cursor:pointer;text-decoration:underline;padding:4px}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.done{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 22px;text-align:center}
+.done h2{font:600 1.6rem "Newsreader",Georgia,serif;margin:0 0 8px}
+.stats{display:flex;justify-content:space-around;margin:18px 0}
+.stats b{display:block;font-size:1.5rem}.stats span{font-size:.8rem;color:var(--mute)}
+textarea{width:100%;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;resize:vertical}.fb{min-height:1.4em;margin:10px 0 0;font-size:.9rem;color:var(--bad)}.fb.good{color:var(--ok)}
+:root.de{--acc:#2d6a4f}@media (prefers-color-scheme:dark){:root.de:not([data-theme="light"]){--acc:#6fd0a0}}:root[data-theme="dark"].de{--acc:#6fd0a0}
+select{max-width:100%;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit}
+.nav{display:flex;gap:6px;margin-bottom:14px}.nav button{flex:1;padding:8px;border:0;border-bottom:2px solid var(--line);background:none;color:var(--mute);font:inherit;cursor:pointer}.nav button[aria-pressed="true"]{border-color:var(--acc);color:var(--ink);font-weight:600}
+.srow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.foot{margin-top:22px;font-size:.8rem;color:var(--mute);text-align:center}
+.foot button{background:none;border:0;color:var(--mute);text-decoration:underline;font:inherit;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<header><h1>Tägliche Vokabeln</h1><div class="streak" id="streak"></div></header>
+<div class="tabs">
+<button class="tab" id="t-en" aria-pressed="true"><b>Business English</b><span>Niveau C2</span></button>
+<button class="tab" id="t-es" aria-pressed="false"><b>Español</b><span>Niveau B1</span></button>
+<button class="tab" id="t-de" aria-pressed="false"><b>Deutsch</b><span>Gehobene Synonyme</span></button>
+</div>
+<div class="nav"><button id="n-learn" aria-pressed="true">Lernen</button><button id="n-prac" aria-pressed="false">Übung</button><button id="n-saved" aria-pressed="false">Merkliste</button></div>
+<div id="app"></div>
+<div class="foot"><label>Stimme: <select id="vsel" aria-label="Stimme"></select></label></div>
+<div class="foot">10 neue Wörter pro Tag, dazu fällige Wiederholungen. <button id="reset">Fortschritt zurücksetzen</button></div>
+</main>
+<script>
+var NEW_PER_DAY=10,INTERVALS=[1,1,3,7,16,35];
+var DATA={
+en:[
+["leverage","nutzen, als Hebel einsetzen","We should leverage our network to enter the market."],
+["mitigate","abmildern, verringern","The firm took steps to mitigate the financial risk."],
+["conundrum","schwieriges Dilemma","Pricing the product is a real conundrum."],
+["fiduciary","treuhänderisch","Directors have a fiduciary duty to shareholders."],
+["attrition","Personalschwund, Abnutzung","Natural attrition reduced headcount without layoffs."],
+["arbitrage","Arbitrage","He made a profit through currency arbitrage."],
+["amortize","tilgen, abschreiben","The loan is amortized over ten years."],
+["acquiesce","stillschweigend zustimmen","The board finally acquiesced to the takeover bid."],
+["expedite","beschleunigen","Please expedite the approval process."],
+["retrench","Kosten senken, einsparen","The company had to retrench after the downturn."],
+["insolvency","Zahlungsunfähigkeit","The supplier filed for insolvency last week."],
+["equitable","gerecht, angemessen","We need an equitable distribution of bonuses."],
+["stipulate","vertraglich festlegen","The contract stipulates a 30-day notice period."],
+["pivot","strategische Kehrtwende","The startup pivoted to enterprise software."],
+["burgeoning","rasch wachsend, aufstrebend","The burgeoning market attracted new investors."],
+["cognizant","sich bewusst","We are cognizant of the regulatory constraints."],
+["circumvent","umgehen","They tried to circumvent the export restrictions."],
+["remuneration","Vergütung","Executive remuneration is under public scrutiny."],
+["prerogative","Vorrecht, Befugnis","Hiring is the manager’s prerogative."],
+["encumbrance","Belastung (z. B. Grundschuld)","The property is free of any encumbrance."],
+["due diligence","Sorgfaltsprüfung","Due diligence revealed several hidden liabilities."],
+["ramification","(oft negative) Folgewirkung","The merger has serious ramifications for staff."],
+["spearhead","anführen, vorantreiben","She spearheaded the global rebranding effort."],
+["curtail","einschränken, kürzen","Budget cuts curtailed our expansion plans."],
+["fungible","austauschbar","Commodities are largely fungible."],
+["vested interest","persönliches (Eigen-)Interesse","He has a vested interest in the deal closing."],
+["exacerbate","verschärfen","Delays only exacerbated the cash-flow problem."],
+["tenable","haltbar, vertretbar","Their position is no longer tenable."],
+["punitive","strafend, Straf-","The court awarded punitive damages."],
+["contingency","Eventualfall, Notfallplan","We have a contingency plan for supply failures."]
+],
+es:[
+["conseguir","erreichen, bekommen","Conseguí un buen trabajo en una empresa grande."],
+["el plazo","Frist","El plazo para entregar el informe termina el viernes."],
+["cumplir","erfüllen, einhalten","Hay que cumplir los plazos del proyecto."],
+["aprovechar","nutzen, ausnutzen","Quiero aprovechar el tiempo libre para estudiar."],
+["el ahorro","Ersparnis","Con mis ahorros voy a comprar un coche."],
+["el sueldo","Gehalt","Mi sueldo sube un poco cada año."],
+["contratar","einstellen, anheuern","La empresa va a contratar a tres personas."],
+["despedir","entlassen","Despidieron a muchos empleados por la crisis."],
+["la entrevista","Vorstellungsgespräch","Mañana tengo una entrevista de trabajo."],
+["el currículum","Lebenslauf","Envié mi currículum a varias empresas."],
+["quejarse","sich beschweren","Los clientes se quejaron del mal servicio."],
+["acordarse de","sich erinnern an","No me acuerdo de su nombre."],
+["darse cuenta de","bemerken, merken","Me di cuenta de que había cometido un error."],
+["soler","pflegen zu, normalerweise tun","Suelo levantarme a las siete."],
+["echar de menos","vermissen","Echo de menos a mi familia."],
+["mejorar","verbessern","Quiero mejorar mi nivel de español."],
+["tener en cuenta","berücksichtigen","Hay que tener en cuenta el presupuesto."],
+["el éxito","Erfolg","El proyecto fue un gran éxito."],
+["el fracaso","Misserfolg, Scheitern","Aprendió mucho de su fracaso."],
+["la ventaja","Vorteil","Trabajar desde casa tiene muchas ventajas."],
+["el inconveniente","Nachteil, Unannehmlichkeit","El único inconveniente es el precio."],
+["ofrecer","anbieten","Nos ofrecieron un descuento del diez por ciento."],
+["rechazar","ablehnen","Rechazó la oferta porque el sueldo era bajo."],
+["sin embargo","jedoch, trotzdem","Es caro; sin embargo, vale la pena."],
+["aunque","obwohl, auch wenn","Voy a salir aunque llueva."],
+["por lo tanto","deshalb, folglich","No hay dinero; por lo tanto, no podemos viajar."],
+["a pesar de","trotz","A pesar del cansancio, terminó el trabajo."],
+["el beneficio","Gewinn, Nutzen","La empresa tuvo mayores beneficios este año."],
+["el presupuesto","Budget, Kostenvoranschlag","Nos pidieron un presupuesto para la reforma."],
+["alquilar","mieten, vermieten","Prefiero alquilar un piso en el centro."]
+]};
+var EXTRA={en:"abrogate|aufheben, außer Kraft setzen\naccrue|sich ansammeln (Zinsen)\nadjudicate|richterlich entscheiden\naggregate|gesamt; zusammenfassen\nalleviate|lindern\nameliorate|verbessern\nappraise|bewerten, schätzen\narbitrate|schlichten\nascertain|feststellen, ermitteln\nassuage|beschwichtigen\nattest|bezeugen, bestätigen\naugment|vergrößern, ergänzen\nbolster|stärken, stützen\nbona fide|echt, in gutem Glauben\nbrokerage|Maklergeschäft\ncapitulate|kapitulieren\ncaveat|Vorbehalt, Warnhinweis\ncollateral|Sicherheit (Kredit)\ncommensurate|angemessen, entsprechend\ncomplacency|Selbstgefälligkeit\nconcomitant|begleitend\nconsolidate|zusammenlegen, festigen\ncontend|behaupten; konkurrieren\nculpable|schuldhaft\ncumbersome|umständlich, schwerfällig\ndebacle|Fiasko\ndeleterious|schädlich\ndelineate|darlegen, abgrenzen\ndepreciate|an Wert verlieren\ndeter|abschrecken\ndetrimental|nachteilig\ndichotomy|Zweiteilung, Gegensatz\ndiscretionary|nach Ermessen\ndisparity|Ungleichheit, Gefälle\ndivest|veräußern\ndormant|ruhend, inaktiv\nelicit|hervorlocken, entlocken\nembezzle|veruntreuen\nenact|erlassen, verabschieden\nencompass|umfassen\nendorse|befürworten; indossieren\nenforce|durchsetzen\nentail|mit sich bringen\nerode|aushöhlen\nescalate|eskalieren, steigern\nexemplify|veranschaulichen\nexorbitant|überhöht\nfacilitate|erleichtern, moderieren\nfeasible|machbar\nflagship|Aushängeschild, Flaggschiff\nforfeit|verwirken, einbüßen\ngalvanize|anspornen, mobilisieren\nglean|herausfiltern (Informationen)\nimpede|hemmen\nimminent|unmittelbar bevorstehend\nimpetus|Antrieb, Anstoß\nincumbent|amtierend; obliegend\nindemnify|entschädigen, freistellen\ninherent|innewohnend\ninstigate|anstoßen, anzetteln\ninsolvent|zahlungsunfähig\njuncture|kritischer Zeitpunkt\nlucrative|einträglich\nmandate|Auftrag, Mandat\nmeticulous|äußerst sorgfältig\nmoratorium|Aufschub, Stillhalteabkommen\nnegligible|vernachlässigbar\nnotwithstanding|ungeachtet\nobsolete|veraltet\nonerous|beschwerlich, belastend\noversight|Aufsicht; Versehen\npervasive|allgegenwärtig\npertinent|einschlägig, relevant\npreclude|ausschließen, verhindern\nprecedent|Präzedenzfall\nproprietary|urheberrechtlich geschützt\nprudent|umsichtig\nrectify|berichtigen\nredundant|überflüssig; entlassen\nreimburse|erstatten\nrelinquish|aufgeben, abtreten\nreconcile|abgleichen, in Einklang bringen\nrender|erbringen, leisten\nreplenish|auffüllen\nrevenue stream|Einnahmequelle\nrescind|widerrufen\nscrutinize|genau prüfen\nsolvency|Zahlungsfähigkeit\nstringent|streng, strikt\nsubsidiary|Tochtergesellschaft\nsupersede|ablösen, ersetzen\nsurmount|überwinden\ntangible|greifbar, materiell\nthrottle|drosseln\ntout|anpreisen\ntranspire|sich herausstellen\nunwarranted|ungerechtfertigt\nviable|rentabel, tragfähig\nvolatile|volatil, sprunghaft\nwaive|verzichten auf\nwindfall|unerwarteter Gewinn\nwrangle|feilschen, streiten\nwithhold|einbehalten\nyield|Ertrag; erbringen",
+es:"el acuerdo|Vereinbarung\nacostumbrarse a|sich gewöhnen an\nla actitud|Haltung\nadvertir|warnen, bemerken\nalcanzar|erreichen\nel alojamiento|Unterkunft\nampliar|erweitern\nanunciar|ankündigen\napoyar|unterstützen\naprobar|bestehen, genehmigen\nla asignatura|Schulfach\nasegurar|versichern, sichern\nel asunto|Angelegenheit\natreverse a|wagen\naumentar|erhöhen, steigen\navisar|benachrichtigen\nla cantidad|Menge\nel cargo|Posten, Amt\ncolaborar|zusammenarbeiten\ncomprometerse|sich verpflichten\nconocer|kennen, kennenlernen\nel consejo|Rat\nconstruir|bauen\nla costumbre|Gewohnheit\ncrecer|wachsen\nla decisión|Entscheidung\ndejar de|aufhören zu\ndemostrar|beweisen\ndepender de|abhängen von\ndesarrollar|entwickeln\ndisfrutar|genießen\ndisponible|verfügbar\nla duda|Zweifel\nel empleo|Stelle, Beschäftigung\nencargarse de|sich kümmern um\nenterarse de|erfahren\nel equipo|Team\nescoger|auswählen\nesforzarse|sich anstrengen\nel esfuerzo|Anstrengung\nla experiencia|Erfahrung\nevitar|vermeiden\nla falta|Mangel, Fehler\nfijarse en|achten auf\nel gasto|Ausgabe\nla gestión|Verwaltung, Abwicklung\nel hecho|Tatsache\nla herramienta|Werkzeug\nel ingreso|Einnahme, Einkommen\nel impuesto|Steuer\nintentar|versuchen\nla intención|Absicht\nlograr|schaffen, erreichen\nla manera|Art und Weise\nmantener|halten, aufrechterhalten\nel medio|Mittel\nel mercado|Markt\nel objetivo|Ziel\nobligar|zwingen\nla oferta|Angebot\nla opinión|Meinung\npagar|bezahlen\nel paro|Arbeitslosigkeit\nparecer|scheinen\nla pérdida|Verlust\npermitir|erlauben\npertenecer a|gehören zu\npreocuparse por|sich sorgen um\nprobar|ausprobieren, beweisen\nel proceso|Prozess\nprometer|versprechen\nla propuesta|Vorschlag\nproteger|schützen\nel proyecto|Projekt\nquedar|sich verabreden; übrig bleiben\nrealizar|durchführen\nrecomendar|empfehlen\nreducir|verringern\nrendirse|aufgeben\nresolver|lösen\nel resultado|Ergebnis\nel riesgo|Risiko\nla seguridad|Sicherheit\nsentirse|sich fühlen\nel servicio|Dienst, Service\nsolicitar|beantragen\nla solución|Lösung\nsuperar|überwinden\nsuponer|annehmen\ntratar de|versuchen; handeln von\nel trámite|Behördengang\nla verdad|Wahrheit\nvaler la pena|sich lohnen\nla vez|Mal\nvolver a|wieder tun"};
+Object.keys(EXTRA).forEach(function(l){EXTRA[l].split("\n").forEach(function(r){var a=r.split("|");DATA[l].push([a[0],a[1]])})});
+DATA.de=[];var X2={en:"EBITDA|Ergebnis vor Zinsen, Steuern und Abschreibungen\nliquidity|Liquidität\nworking capital|Betriebskapital\ncash burn|monatlicher Mittelverbrauch\nrunway|Finanzierungsreichweite in Monaten\nequity|Eigenkapital\ngearing|Verschuldungsgrad\nhedge|Risiko absichern\nbond|Anleihe\ndividend|Dividende\naccounts receivable|Forderungen\naccounts payable|Verbindlichkeiten\nwrite-off|Abschreibung, Ausbuchung\noverhead|Gemeinkosten\nmargin|Marge\nbottom line|Endergebnis\nforecast|Prognose\nvariance|Abweichung (Soll/Ist)\naudit|Prüfung, Wirtschaftsprüfung\nprocurement|Beschaffung, Einkauf\nvendor lock-in|Anbieterabhängigkeit\nservice-level agreement|Dienstgütevereinbarung (SLA)\nmaster agreement|Rahmenvertrag\ntender|Ausschreibung; Angebot abgeben\nrequest for proposal|Angebotsanfrage, Ausschreibung\nonboarding|Einarbeitung, Kundeneinführung\nstakeholder buy-in|Zustimmung der Beteiligten\ndecision-maker|Entscheidungsträger\ngatekeeper|Türöffner/Türsteher (Vorzimmer)\nchannel partner|Vertriebspartner\nwhite-label|unter fremder Marke vertrieben\nscalable|skalierbar\ninteroperability|Interoperabilität\nprospect|potenzieller Kunde\nlead|Verkaufskontakt\npipeline|Verkaufstrichter\nquota|Verkaufsziel\nupsell|höherwertiger Zusatzverkauf\ncross-sell|ergänzender Zusatzverkauf\nchurn|Kundenabwanderung\nobjection|Einwand\nrapport|Vertrauensverhältnis\ndiscovery call|Bedarfsanalyse-Gespräch\nvalue proposition|Nutzenversprechen\nrenewal|Vertragsverlängerung\nreferral|Empfehlung\ncommission|Provision\nincentive|Anreiz\nwin rate|Abschlussquote\nsales cycle|Verkaufszyklus\nlead nurturing|Kontaktpflege bis zum Kauf",es:"la factura|Rechnung\nel cobro|Einzug, Zahlungseingang\nel pago|Zahlung\nla deuda|Schulden\nel préstamo|Darlehen\nlos intereses|Zinsen\nla inversión|Investition\nel balance|Bilanz\nel descuento|Rabatt\nel contrato|Vertrag\nel cliente potencial|potenzieller Kunde\nla venta|Verkauf\nel vendedor|Verkäufer\nel comprador|Käufer\nnegociar|verhandeln\ncerrar un trato|ein Geschäft abschließen\nla cuota|Rate, Quote\nla comisión|Provision\nel proveedor|Lieferant\nel pedido|Bestellung\nel plazo de entrega|Lieferfrist\nla garantía|Garantie\nla competencia|Konkurrenz\nel margen|Marge\nfidelizar|Kunden binden\nla cartera de clientes|Kundenstamm\nla tarifa|Tarif, Preisliste\nel reembolso|Rückerstattung",de:"obsolet|veraltet, überholt\nubiquitär|überall vorkommend, allgegenwärtig\nprägnant|treffend, kurz und genau\neloquent|redegewandt, wortgewandt\nakribisch|äußerst genau, peinlich genau\ndiffizil|schwierig, heikel\nelementar|grundlegend, wesentlich\nsignifikant|bedeutsam, erheblich\nevident|offensichtlich, augenfällig\nrudimentär|ansatzweise, unvollständig\nlatent|verborgen, schlummernd\nmanifest|offenkundig, deutlich erkennbar\nHypothese|Annahme, Vermutung\nPrämisse|Voraussetzung, Ausgangsannahme\nStringenz|Schlüssigkeit, Folgerichtigkeit\nKohärenz|Zusammenhang, innere Stimmigkeit\nAmbivalenz|Zwiespältigkeit, Doppelwertigkeit\nDichotomie|Zweiteilung, Gegensatzpaar\nDiskrepanz|Widerspruch, Unstimmigkeit\nDivergenz|Abweichung, Auseinanderlaufen\nKonvergenz|Annäherung, Übereinstimmung\nKorrelation|Wechselbeziehung, statistischer Zusammenhang\nKausalität|Ursächlichkeit, Ursache-Wirkung-Beziehung\nImplikation|Folgerung, Auswirkung\nIntention|Absicht, Vorhaben\nPrävalenz|Häufigkeit, Verbreitung\nParadigma|Denkmuster, Leitbild\nAxiom|unbewiesener Grundsatz\nDogma|unumstößlicher Lehrsatz\nKonnotation|Nebenbedeutung, Beiklang\nNuance|feine Abstufung, Schattierung\nKontingenz|Zufälligkeit, Möglichkeit\nimmanent|innewohnend, in der Sache liegend\nintrinsisch|von innen heraus, aus sich selbst\nextrinsisch|von außen, äußerlich bedingt\nadäquat|angemessen, passend\ninkonsistent|widersprüchlich, unbeständig\nredundant|überflüssig, mehrfach vorhanden\ntrivial|belanglos, simpel\nsubstanziell|gewichtig, wesentlich\nfundamental|grundlegend, tiefgreifend\nexemplarisch|beispielhaft, musterhaft\nkonstituieren|bilden, begründen\neruieren|herausfinden, ermitteln\nevaluieren|bewerten, auswerten\ndifferenzieren|unterscheiden, aufgliedern\npostulieren|fordern, als gegeben annehmen\nakzentuieren|hervorheben, betonen\nrekurrieren|zurückgreifen, sich beziehen\nimplizieren|beinhalten, nach sich ziehen\nperpetuieren|fortdauern lassen, verstetigen\nnivellieren|angleichen, einebnen\ntangieren|berühren, betreffen\nkontrastieren|gegenüberstellen, abheben\nsubsumieren|einordnen, zusammenfassen\neklatant|offenkundig, auffallend\nvehement|heftig, nachdrücklich\nprekär|heikel, bedenklich\nobligat|unerlässlich, verpflichtend\nvage|unbestimmt, ungenau\narbiträr|willkürlich, beliebig\npragmatisch|sachbezogen, lösungsorientiert\nrepräsentativ|stellvertretend, aussagekräftig\ndezidiert|entschieden, bestimmt\nkursorisch|flüchtig, überblicksartig\nsukzessive|nach und nach, schrittweise\nsimultan|gleichzeitig"};
+Object.keys(X2).forEach(function(l){X2[l].split("\n").forEach(function(r){var a=r.split("|");DATA[l].push([a[0],a[1]])})});
+var LOCALE={en:"en-GB",es:"es-ES",de:"de-DE"};
+var S={lang:"en",prog:{en:{},es:{}},streak:0,last:"",today:{}};
+var queue=[],flipped=false,seen=0,total=0,sessionIdx=[],practice=null,view="learn";
+function pad(n){return String(n).padStart(2,"0")}
+function key(off){var d=new Date(Date.now()+(off||0)*864e5);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function load(){try{var r=localStorage.getItem("vocab-v1");if(r){var o=JSON.parse(r);if(o&&o.prog)S=Object.assign(S,o)}}catch(e){}}
+function save(){try{localStorage.setItem("vocab-v1",JSON.stringify(S))}catch(e){}}
+function build(){
+ var p=S.prog[S.lang],t=key(),due=[],fresh=[];
+ DATA[S.lang].forEach(function(w,i){var q=p[i];if(q){if(q.d<=t)due.push(i)}else fresh.push(i)});
+ var done=(S.today[S.lang]&&S.today[S.lang].date===t)?S.today[S.lang].fresh:0;
+ var left=Math.max(0,NEW_PER_DAY-done);
+ queue=due.concat(fresh.slice(0,left));
+ total=queue.length;seen=0;flipped=false;sessionIdx=[];practice=null;
+}
+function answer(ok){
+ var i=queue.shift(),p=S.prog[S.lang],t=key(),q=p[i],isNew=!q;if(sessionIdx.indexOf(i)<0)sessionIdx.push(i);
+ if(!q)q=p[i]={b:0,d:t};
+ if(ok){q.b=Math.min(q.b+1,5);q.d=key(INTERVALS[q.b])}
+ else{q.b=0;q.d=key(1);queue.push(i);total++}
+ if(isNew){var td=S.today[S.lang];if(!td||td.date!==t)td=S.today[S.lang]={date:t,fresh:0};td.fresh++}
+ if(S.last!==t){S.streak=(S.last===key(-1))?S.streak+1:1;S.last=t}
+ seen++;flipped=false;save();render();
+}
+function pickVoice(l){var v=speechSynthesis.getVoices(),a=l.toLowerCase(),c=(S.voice||{})[S.lang],m=v.filter(function(x){return x.name===c})[0];if(m)return m;return v.filter(function(x){return x.lang.replace("_","-").toLowerCase()===a})[0]||v.filter(function(x){return x.lang.toLowerCase().indexOf(a.slice(0,2))===0})[0]}
+function speak(text){try{var u=new SpeechSynthesisUtterance(text),v=pickVoice(LOCALE[S.lang]);u.lang=LOCALE[S.lang];if(v)u.voice=v;u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function fillVoices(){var s=document.getElementById("vsel");if(!s)return;var pre=LOCALE[S.lang].slice(0,2),list=[];try{list=speechSynthesis.getVoices().filter(function(x){return x.lang.toLowerCase().indexOf(pre)===0})}catch(e){}
+ s.innerHTML=list.length?"":"<option>Keine Stimme gefunden</option>";
+ list.forEach(function(v){var o=document.createElement("option");o.value=v.name;o.textContent=v.name+" ("+v.lang+")";s.appendChild(o)});
+ var cur=(S.voice||{})[S.lang];if(cur&&list.some(function(v){return v.name===cur}))s.value=cur}
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){fillVoices()}}catch(e){}
+document.getElementById("vsel").onchange=function(){S.voice=S.voice||{};S.voice[S.lang]=this.value;save();speak(DATA[S.lang][0][0])};
+function esc(s){return s.replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function render(){
+ document.documentElement.classList.toggle("es",S.lang==="es");document.documentElement.classList.toggle("de",S.lang==="de");
+ document.getElementById("t-en").setAttribute("aria-pressed",S.lang==="en");
+ document.getElementById("t-es").setAttribute("aria-pressed",S.lang==="es");
+ document.getElementById("t-de").setAttribute("aria-pressed",S.lang==="de");
+ document.getElementById("streak").textContent=S.streak>0?"Serie: "+S.streak+(S.streak===1?" Tag":" Tage"):"";
+ updateNav();if(practice){renderPractice();return}if(view!=="learn"){renderView();return}var el=document.getElementById("app"),p=S.prog[S.lang];
+ if(!queue.length){
+  var all=DATA[S.lang].length,learned=0,master=0;
+  Object.keys(p).forEach(function(k){learned++;if(p[k].b>=4)master++});
+  el.innerHTML='<div class="done"><h2>'+(total?"Tagesziel geschafft":"Heute nichts mehr fällig")+'</h2><p class="hint">'+(total?"Morgen warten neue Wörter und Wiederholungen auf dich.":"Komm morgen wieder oder wechsle die Sprache.")+'</p><div class="stats"><div><b>'+learned+'</b><span>gelernt</span></div><div><b>'+master+'</b><span>sicher (Stufe 4+)</span></div><div><b>'+(all-learned)+'</b><span>noch neu</span></div></div>'+(sessionIdx.length?'<button class="btn ok" id="pr" style="width:100%">Satzübung starten</button>':'')+'</div>';
+  return;
+ }
+ var w=DATA[S.lang][queue[0]],isNew=!p[queue[0]];
+ var pct=total?Math.round(seen/total*100):0;
+ var h='<div class="bar"><i style="width:'+pct+'%"></i></div><div class="meta"><span>'+seen+" von "+total+'</span><span>'+(isNew?"Neues Wort":"Wiederholung")+'</span></div>';
+ h+='<button class="card" id="card" aria-label="Karte umdrehen"><p class="word">'+esc(w[0])+'</p>';
+ h+=flipped?'<p class="tr">'+esc(w[1])+'</p>'+(w[2]?'<p class="ex">'+esc(w[2])+'</p>':''):'<p class="hint">Tippen, um die Bedeutung zu sehen</p>';
+ h+='</button><div class="row"><button class="btn" id="no"'+(flipped?"":" disabled")+'>Nochmal</button><button class="btn ok" id="yes"'+(flipped?"":" disabled")+'>Gewusst</button></div>';
+ h+='<div style="text-align:center"><button class="speak" id="sp">Wort anhören</button> <button class="speak" id="sv">'+(isSaved(queue[0])?"Gemerkt":"Merken")+'</button>'+(flipped&&w[2]?' <button class="speak" id="sp2">Beispielsatz anhören</button>':'')+'</div>';
+ el.innerHTML=h;
+ document.getElementById("card").onclick=function(){flipped=!flipped;if(flipped)speak(w[0]);render()};
+ document.getElementById("sp").onclick=function(){speak(w[0])};var s2=document.getElementById("sp2");if(s2)s2.onclick=function(){speak(w[2])};
+ document.getElementById("no").onclick=function(){answer(false)};
+ document.getElementById("yes").onclick=function(){answer(true)};
+}
+function norm(x){return x.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function stem(w){var best="";norm(w).split(" ").forEach(function(t){t=t.replace(/[^a-z]/g,"");if(t.length<4)return;t=t.replace(/se$/,"");t=t.length>5?t.slice(0,t.length-2):t.length>3?t.slice(0,t.length-1):t;if(t.length>best.length)best=t});return best||norm(w).split(" ").pop().replace(/[^a-z]/g,"")}
+function renderPractice(){
+ var el=document.getElementById("app"),P=practice,n=P.list.length;
+ if(P.i>=n){el.innerHTML='<div class="done"><h2>Übung beendet</h2><p class="hint">'+P.ok+" von "+n+' Sätzen enthielten das Zielwort.</p><button class="btn ok" id="px" style="width:100%;margin-top:14px">Zurück</button></div>';return}
+ var w=DATA[S.lang][P.list[P.i]],h='<div class="bar"><i style="width:'+Math.round(P.i/n*100)+'%"></i></div><div class="meta"><span>Satzübung '+(P.i+1)+" von "+n+'</span><span>Eigener Satz</span></div><div class="done"><p class="word">'+esc(w[0])+'</p><p class="hint">'+esc(w[1])+"</p>";
+ if(P.phase==="w"){h+='<textarea id="sent" rows="3" aria-label="Dein Satz"></textarea><p class="fb">'+P.msg+'</p><div class="row"><button class="btn" id="pskip">Überspringen</button><button class="btn ok" id="pchk">Prüfen</button></div>'}
+ else{h+='<p class="ex">„'+esc(P.draft)+'“</p><p class="fb good">Gut, das Zielwort ist enthalten.</p>'+(w[2]?'<p class="hint">Zum Vergleich:</p><p class="ex">'+esc(w[2])+"</p>":"")+'<button class="btn ok" id="pnext" style="width:100%;margin-top:14px">Weiter</button>'}
+ el.innerHTML=h+"</div>";
+ var t=document.getElementById("sent");if(t){t.value=P.draft||"";t.focus()}
+}
+document.getElementById("app").addEventListener("click",function(e){var id=e.target.id,P=practice;
+ if(id==="pr"){practice={list:sessionIdx.slice(0,10),i:0,ok:0,phase:"w",msg:"",draft:""};render();return}
+ if(!P)return;
+ if(id==="px"){practice=null;render()}
+ else if(id==="pskip"||id==="pnext"){P.i++;P.phase="w";P.msg="";P.draft="";render()}
+ else if(id==="pchk"){var s=document.getElementById("sent").value.trim(),w=DATA[S.lang][P.list[P.i]];P.draft=s;
+  if(s.split(" ").filter(Boolean).length<4)P.msg="Schreibe einen ganzen Satz mit mindestens 4 Wörtern.";
+  else if(norm(s).indexOf(stem(w[0]))<0)P.msg="Das Wort „"+w[0]+"“ kommt in deinem Satz nicht vor. Versuche es noch einmal.";
+  else{P.ok++;P.phase="r";P.msg=""}
+  render()}});
+function updateNav(){["learn","prac","saved"].forEach(function(k){document.getElementById("n-"+k).setAttribute("aria-pressed",view===k)})}
+function learnedList(){return Object.keys(S.prog[S.lang]).map(Number)}
+function savedList(){return(S.saved&&S.saved[S.lang])||[]}
+function isSaved(i){return savedList().indexOf(i)>=0}
+function toggleSave(i){S.saved=S.saved||{};var l=S.saved[S.lang]=S.saved[S.lang]||[],k=l.indexOf(i);if(k<0)l.push(i);else l.splice(k,1);save();render()}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function renderView(){
+ var el=document.getElementById("app"),L=learnedList(),sv=savedList(),h;
+ if(view==="prac"){
+  h='<div class="done"><h2>Übung wiederholen</h2><p class="hint">Bilde eigene Sätze mit Wörtern, die du schon kennst.</p><div class="row" style="grid-template-columns:1fr">';
+  h+='<button class="btn ok" id="pr-rand"'+(L.length?"":" disabled")+'>10 zufällige gelernte Wörter ('+L.length+' verfügbar)</button>';
+  h+='<button class="btn" id="pr-today"'+(sessionIdx.length?"":" disabled")+'>Wörter von heute ('+sessionIdx.length+')</button>';
+  h+='<button class="btn" id="pr-saved"'+(sv.length?"":" disabled")+'>Meine Merkliste ('+sv.length+')</button></div></div>';
+ }else{
+  h='<div class="done" style="text-align:left"><h2 style="text-align:center">Merkliste</h2>';
+  if(!sv.length)h+='<p class="hint" style="text-align:center">Noch leer. Tippe beim Lernen auf „Merken“.</p>';
+  sv.forEach(function(i){var w=DATA[S.lang][i];h+='<div class="srow"><div><b>'+esc(w[0])+'</b><br><span class="hint">'+esc(w[1])+'</span></div><div><button class="speak" data-a="say" data-i="'+i+'">Anhören</button><button class="speak" data-a="rm" data-i="'+i+'">Entfernen</button></div></div>'});
+  h+='</div>';
+ }
+ el.innerHTML=h;
+}
+document.getElementById("app").addEventListener("click",function(e){var t=e.target,id=t.id,a=t.dataset&&t.dataset.a;
+ var go=function(l){if(l.length)practice={list:shuffle(l).slice(0,10),i:0,ok:0,phase:"w",msg:"",draft:""};render()};
+ if(id==="pr-rand")go(learnedList());
+ else if(id==="pr-today")go(sessionIdx);
+ else if(id==="pr-saved")go(savedList());
+ else if(id==="sv")toggleSave(queue[0]);
+ else if(a==="say")speak(DATA[S.lang][+t.dataset.i][0]);
+ else if(a==="rm")toggleSave(+t.dataset.i)});
+["learn","prac","saved"].forEach(function(k){document.getElementById("n-"+k).onclick=function(){view=k;practice=null;render()}});
+function setLang(l){S.lang=l;save();build();render();fillVoices()}
+document.getElementById("t-en").onclick=function(){setLang("en")};
+document.getElementById("t-es").onclick=function(){setLang("es")};
+document.getElementById("t-de").onclick=function(){setLang("de")};
+document.getElementById("reset").onclick=function(){if(confirm("Gesamten Fortschritt löschen?")){S={lang:S.lang,prog:{en:{},es:{},de:{}},streak:0,last:"",today:{}};save();build();render()}};
+load();S.prog.de=S.prog.de||{};build();render();fillVoices();
+</script>
+</body>
+</html>

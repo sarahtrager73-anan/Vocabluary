@@ -1,0 +1,6 @@
+Tägliche Vokabeln (Business English C2, Español B1, Deutsch gehoben)
+
+Start: Datei "vokabeltrainer.html" per Doppelklick im Browser öffnen.
+Alles läuft offline im Browser, Fortschritt und Merkliste werden lokal gespeichert.
+Hinweis: Die Schriftart wird online geladen, ohne Internet greift eine Standardschrift.
+Die Sprachausgabe nutzt die Stimmen deines Geräts.
